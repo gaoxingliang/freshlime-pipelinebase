@@ -11,17 +11,12 @@ RUN yum install -y wget zip unzip supervisor dnsutils which net-tools telnet ntp
     systemctl enable ntpd
 
 ENV JDK_VERSION="202"
-# ENV JDK_DOWN_URL=http://anfadmin.ucsd.edu/linux/RHEL/7/x86_64/jdk-8u212-linux-x64.rpm
-# from https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.rpm
-ENV JDK_DOWN_URL=https://repo.huaweicloud.com/java/jdk/8u$JDK_VERSION-b08/jdk-8u$JDK_VERSION-linux-x64.rpm
+ENV JDK_DOWN_URL=https://corretto.aws/downloads/resources/11.0.9.12.1/java-11-amazon-corretto-devel-11.0.9.12-1.x86_64.rpm
 
 RUN cd /tmp && \
     wget -nv --no-cookies --no-check-certificate $JDK_DOWN_URL && \
-    yum install -y ./ jdk-8u$JDK_VERSION-linux-x64.rpm && \
-    ln -s /usr/java/jdk1.8.0_$JDK_VERSION-amd64 /usr/local/jdk
-
-ENV JAVA_HOME /usr/local/jdk
-ENV PATH $PATH:/usr/local/jdk/bin
+    yum install -y ./ java-11-amazon-corretto-devel-11.0.9.12-1.x86_64.rpm && \
+    yum clean all
 
 # DOCKER
 RUN wget -P /tmp/ https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-cli-19.03.14-3.el7.x86_64.rpm  && \
